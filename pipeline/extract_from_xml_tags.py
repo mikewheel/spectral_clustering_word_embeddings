@@ -3,9 +3,9 @@
 
 import config
 import pandas
-import xml.etree.ElementTree as ElementTree
+from lxml.etree import XMLParser, parse
+from io import StringIO
 
-from itertools import chain
 from luigi import Task, WrapperTask, LocalTarget, Parameter
 from os import mkdir
 
@@ -29,9 +29,12 @@ class ExtractParsedTextFromXMLTags(Task):
     
     def run(self):
         with open(self.path_to_xml_fragments, "r") as input_f:
-            # https://stackoverflow.com/a/23891895/8857601
-            it = chain('<root>', input_f, '</root>')
-            root = ElementTree.fromstringlist(it)
+            # Needs a root element to parse as XML
+            xml_str = '<root>\n' + input_f.read() + '\n</root>'
+            # https://stackoverflow.com/a/9050454/8857601
+            parser = XMLParser(encoding='utf-8', recover=True, remove_blank_text=True)
+            tree = parse(StringIO(xml_str), parser=parser)
+            root = tree.getroot()
         
         doc_rows = []
         
@@ -41,7 +44,7 @@ class ExtractParsedTextFromXMLTags(Task):
             doc_id = doc_tag.attrib.get("id")
             doc_url = doc_tag.attrib.get("url")
             doc_title = doc_tag.attrib.get("title")
-            doc_text = doc_tag.text
+            doc_text = doc_tag.text.strip()
             # TODO strip the text of whitespace, tokenize, word embed?
             doc_rows.append([doc_id, doc_url, doc_title, doc_text])
             
@@ -61,4 +64,4 @@ class CorpusXMLToParquet(WrapperTask):
                           for filepath in subdir.iterdir() if filepath.is_file()]
         
         # Then convert to the text extraction Task and return
-        return [ExtractParsedTextFromXMLTags(path_to_file=filepath) for filepath in text_file_list]
+        return [ExtractParsedTextFromXMLTags(path_to_xml_fragments=filepath) for filepath in text_file_list]

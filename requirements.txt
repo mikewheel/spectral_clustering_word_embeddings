@@ -6,3 +6,5 @@ dask
 dask-ml
 spacy
 gensim
+lxml
+pyarrow
