@@ -8,7 +8,7 @@ WIKIPEDIA_ARCHIVE_CONTENTS_FILE = DATA_DIR / "enwiki-20201101-pages-articles-mul
 WIKIPEDIA_ARCHIVE_INDEX_FILE = DATA_DIR / "enwiki-20201101-pages-articles-multistream-index.txt.bz2"
 
 # Directory for WikiExtractor output: subdirectories contain text files containing XML fragments for each article
-WIKIPEDIA_XML_DIR = DATA_DIR / "archive_parse"
+WIKIPEDIA_XML_DIR = DATA_DIR / "archive_xml"
 # Directory for parquet files containing article text: structure mirrors XML_DIR, maps each text file to a parquet file
 WIKIPEDIA_PARQUET_DIR = DATA_DIR / "archive_parquets"
 # Directory for storing clustered data, summary statistics, and plots

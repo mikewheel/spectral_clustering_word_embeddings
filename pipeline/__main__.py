@@ -6,4 +6,4 @@ from pipeline.perform_clustering import PerformSpectralClustering
 
 if __name__ == "__main__":
     tasks = [CorpusXMLToParquet()]
-    build(tasks, local_scheduler=True)  # TODO set up scheduler, dashboard
+    build(tasks, local_scheduler=True, workers=8)  # TODO set up central scheduler

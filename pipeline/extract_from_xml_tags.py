@@ -1,13 +1,13 @@
 """Processes the output of the WikiExtractor module by reading XML fragments from disk, extracting text and metadata,
  and saving in batches to a series of Parquet files that can be read in by Dask for downstream tasks."""
 
-import config
-import pandas
-from lxml.etree import XMLParser, parse
 from io import StringIO
 
+import pandas
 from luigi import Task, WrapperTask, LocalTarget, Parameter
-from os import mkdir
+from lxml.etree import XMLParser, parse
+
+import config
 
 
 class ExtractParsedTextFromXMLTags(Task):
@@ -21,17 +21,17 @@ class ExtractParsedTextFromXMLTags(Task):
     
     def output(self):
         # Mirror the subdirectory structure of the XML_DIR
-        parquet_subdir = config.WIKIPEDIA_PARQUET_DIR / self.path_to_xml_fragments.parent
-        if not parquet_subdir.exists():
-            mkdir(parquet_subdir)
-            
+        parquet_subdir = config.WIKIPEDIA_PARQUET_DIR / self.path_to_xml_fragments.parent.stem
+        parquet_subdir.mkdir(parents=True, exist_ok=True)
         return LocalTarget(parquet_subdir / f'{self.path_to_xml_fragments.stem}.parquet')
     
     def run(self):
+        # assert Path(self.output().path).parent.parent == config.WIKIPEDIA_PARQUET_DIR
         with open(self.path_to_xml_fragments, "r") as input_f:
             # Needs a root element to parse as XML
             xml_str = '<root>\n' + input_f.read() + '\n</root>'
-            # https://stackoverflow.com/a/9050454/8857601
+            
+            # Handle malformed XML from WikiExtractor: https://stackoverflow.com/a/9050454/8857601
             parser = XMLParser(encoding='utf-8', recover=True, remove_blank_text=True)
             tree = parse(StringIO(xml_str), parser=parser)
             root = tree.getroot()
@@ -50,7 +50,7 @@ class ExtractParsedTextFromXMLTags(Task):
             
         # Construct a dataframe, and then construct parquet file output
         df = pandas.DataFrame(doc_rows, columns=["id", "url", "title", "text"])
-        df.to_parquet(self.output().open("w"))
+        df.to_parquet(open(self.output().path, "wb"))
     
 
 class CorpusXMLToParquet(WrapperTask):
