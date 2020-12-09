@@ -7,24 +7,28 @@ import xml.etree.ElementTree as ElementTree
 
 from itertools import chain
 from luigi import Task, WrapperTask, LocalTarget, Parameter
+from os import mkdir
 
 
 class ExtractParsedTextFromXMLTags(Task):
     """Accepts a Path to a single text file produced by the WikiExtractor. Reads every Document tag and
        maps the ID to the raw/tokenized text before saving to """
     
-    path_to_file = Parameter()
+    path_to_xml_fragments = Parameter()
     
     def requires(self):
         return None
     
     def output(self):
         # Mirror the subdirectory structure of the XML_DIR
-        parquet_subdir = config.WIKIPEDIA_PARQUET_DIR / self.path_to_file.parent
-        return LocalTarget(parquet_subdir / self.path_to_file.name + ".parquet")
+        parquet_subdir = config.WIKIPEDIA_PARQUET_DIR / self.path_to_xml_fragments.parent
+        if not parquet_subdir.exists():
+            mkdir(parquet_subdir)
+            
+        return LocalTarget(parquet_subdir / f'{self.path_to_xml_fragments.stem}.parquet')
     
     def run(self):
-        with open(self.path_to_file, "r") as input_f:
+        with open(self.path_to_xml_fragments, "r") as input_f:
             # https://stackoverflow.com/a/23891895/8857601
             it = chain('<root>', input_f, '</root>')
             root = ElementTree.fromstringlist(it)
@@ -41,6 +45,7 @@ class ExtractParsedTextFromXMLTags(Task):
             # TODO strip the text of whitespace, tokenize, word embed?
             doc_rows.append([doc_id, doc_url, doc_title, doc_text])
             
+        # Construct a dataframe, and then construct parquet file output
         df = pandas.DataFrame(doc_rows, columns=["id", "url", "title", "text"])
         df.to_parquet(self.output().open("w"))
     
