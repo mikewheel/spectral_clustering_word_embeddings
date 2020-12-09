@@ -1,4 +1,6 @@
+wikiextractor  # https://github.com/attardi/wikiextractor/issues/222
 luigi
+numpy
 pandas
 dask
 dask-ml
