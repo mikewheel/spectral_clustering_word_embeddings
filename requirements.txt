@@ -1,0 +1,6 @@
+luigi
+pandas
+dask
+dask-ml
+spacy
+gensim
