@@ -4,7 +4,6 @@
 from io import StringIO
 
 import pandas
-from gensim.models import Word2Vec, FastText
 from luigi import Task, WrapperTask, LocalTarget, Parameter
 from lxml.etree import XMLParser, parse
 from nltk import sent_tokenize, word_tokenize
@@ -14,8 +13,8 @@ import config
 
 class ExtractParsedTextFromXMLTags(Task):
     """Accepts a Path to a single text file produced by the WikiExtractor. Reads every Document tag and
-       maps the ID to the tokenized text before saving to disk. Also generates a corpus file for the training
-       of word embedding models downstream."""
+    maps the ID to the tokenized text before saving to a parquet file. Also augments a corpus file for the training
+    of word embedding models downstream."""
     
     path_to_xml_fragments = Parameter()
     path_to_fasttext = Parameter()
@@ -30,22 +29,6 @@ class ExtractParsedTextFromXMLTags(Task):
         parquet_subdir.mkdir(parents=True, exist_ok=True)
         return LocalTarget(parquet_subdir / f'{self.path_to_xml_fragments.stem}.parquet')
     
-    def get_fasttext(self):
-        if not self.path_to_fasttext.exists():
-            model = FastText(**config.FASTTEXT_INIT)
-            return model, False
-        else:
-            model = FastText.load(str(self.path_to_fasttext))
-            return model, True
-            
-    def get_word2vec(self):
-        if not self.path_to_word2vec.exists():
-            model = Word2Vec(**config.WORD2VEC_INIT)
-            return model, False
-        else:
-            model = Word2Vec.load(str(self.path_to_word2vec))
-            return model, True
-    
     def run(self):
         with open(self.path_to_xml_fragments, "r") as input_f:
             # Needs a root element to parse as XML
@@ -58,9 +41,6 @@ class ExtractParsedTextFromXMLTags(Task):
         
         # For dataframe construction below
         doc_rows = []
-        # Gives us the word embedding models and whether or not they're already partially trained
-        fasttext_model, fasttext_update = self.get_fasttext()
-        word2vec_model, word2vec_update = self.get_word2vec()
 
         # For each child tag under the newly-constructed root tag
         for doc_tag in root.findall('doc'):
@@ -72,23 +52,11 @@ class ExtractParsedTextFromXMLTags(Task):
             
             tokenized_text = [word_tokenize(sent) for sent in sent_tokenize(doc_text)]
             
-            # Train fasttext on current text
-            fasttext_model.build_vocab(sentences=tokenized_text, update=fasttext_update)
-            fasttext_model.train(sentences=tokenized_text, total_examples=len(tokenized_text),
-                                 epochs=fasttext_model.epochs)
-            fasttext_update = True
-            
-            # Train word2vec on current text
-            word2vec_model.build_vocab(sentences=tokenized_text, update=word2vec_update)
-            word2vec_model.train(sentences=tokenized_text, total_examples=len(tokenized_text),
-                                 epochs=word2vec_model.epochs)
-            word2vec_update = True
+            with open(config.LINE_SENTENCE_CORPUS_FILE, "a") as corpus_f:
+                for sent in tokenized_text:
+                    corpus_f.write(" ".join(sent) + "\n")
             
             doc_rows.append([doc_id, doc_url, doc_title, tokenized_text])
-
-        # Save the updated word vector models to disk
-        fasttext_model.save(str(self.path_to_fasttext))
-        word2vec_model.save(str(self.path_to_word2vec))
             
         # Construct a dataframe, and then construct parquet file output
         df = pandas.DataFrame(doc_rows, columns=["id", "url", "title", "tokenized_text"])
