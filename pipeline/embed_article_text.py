@@ -1,5 +1,5 @@
-"""Take the entire corpus as a Dask Dataframe and produce the document embeddings necessary for performing
-   spectral clustering."""
+"""Tasks for taking the entire corpus as a Dask Dataframe and producing the document embeddings necessary for performing
+   spectral clustering downstream."""
 
 import dask.dataframe
 import numpy
