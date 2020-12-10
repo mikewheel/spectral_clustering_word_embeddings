@@ -13,6 +13,9 @@ WIKIPEDIA_XML_DIR = DATA_DIR / "archive_xml"
 # Directory for parquet files containing article text: structure mirrors XML_DIR, maps each text file to a parquet file
 WIKIPEDIA_PARQUET_DIR = DATA_DIR / "archive_parquets"
 
+# Directory for parquet files containing article embeddings
+ARTICLE_EMBEDDINGS_DIR = DATA_DIR / "article_embeddings"
+
 # Directory for storing clustered data, summary statistics, and plots
 CLUSTERING_RESULTS_DIR = DATA_DIR / "clustering_results"
 

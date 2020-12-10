@@ -6,7 +6,7 @@ from dask_ml.cluster import SpectralClustering
 from luigi import Task, LocalTarget, IntParameter
 
 import config
-from pipeline.extract_from_xml_tags import CorpusXMLToParquet
+from pipeline.embed_article_text import GenerateDocumentEmbeddings
 
 
 class PerformSpectralClustering(Task):
@@ -16,7 +16,7 @@ class PerformSpectralClustering(Task):
     num_clusters = IntParameter()
     
     def requires(self):
-        return [CorpusXMLToParquet()]
+        return [GenerateDocumentEmbeddings()]
 
     def output(self):
         return LocalTarget(config.CLUSTERING_RESULTS_DIR / "output.txt")  # FIXME actual target
