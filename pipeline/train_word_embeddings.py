@@ -1,9 +1,10 @@
 """Tasks for training the word embeddings once a corpus file has been generated from the upstream XML parse task."""
 
+from datetime import datetime
+
 from gensim.models import Word2Vec, FastText
 from gensim.models.callbacks import CallbackAny2Vec
 from luigi import Task, WrapperTask, LocalTarget
-from datetime import datetime
 
 import config
 from pipeline.extract_from_xml_tags import CorpusXMLToParquet
@@ -11,6 +12,7 @@ from pipeline.extract_from_xml_tags import CorpusXMLToParquet
 
 # https://stackoverflow.com/a/54423541/8857601
 class MonitorCallback(CallbackAny2Vec):
+    """Logging utility for monitoring the training of gensim's word embedding implementations."""
     def __init__(self):
         pass
     
@@ -55,6 +57,6 @@ class TrainWord2Vec(Task):
         word2vec_model.save(str(config.WORD2VEC_FILE))
 
 
-class TrainWordEmbeddings(WrapperTask):
+class TrainAllWordEmbeddings(WrapperTask):
     def requires(self):
         return [TrainFastText(), TrainWord2Vec()]

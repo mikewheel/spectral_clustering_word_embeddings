@@ -1,15 +1,11 @@
 """Assembles a Dask Dataframe from the Parquet files creaated by upstream tasks and performs Spectral Clustering
    experiments on the data."""
 
-import config
 import dask.dataframe
 from dask_ml.cluster import SpectralClustering
-import xml.etree.ElementTree as ElementTree
+from luigi import Task, LocalTarget, IntParameter
 
-from itertools import chain
-from luigi import Task, WrapperTask, LocalTarget, Parameter, build, IntParameter
-from pathlib import Path
-
+import config
 from pipeline.extract_from_xml_tags import CorpusXMLToParquet
 
 
@@ -26,7 +22,7 @@ class PerformSpectralClustering(Task):
         return LocalTarget(config.CLUSTERING_RESULTS_DIR / "output.txt")  # FIXME actual target
     
     def run(self):
-        ddf = dask.dataframe.read_parquet(config.WIKIPEDIA_PARQUET_DIR / "*" / "wiki_*.parquet")
+        ddf = dask.dataframe.read_parquet(None)
         
         # TODO set ID column as index, drop features except the document vectors
         
