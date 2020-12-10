@@ -7,4 +7,5 @@ from pipeline.perform_clustering import PerformSpectralClustering
 if __name__ == "__main__":
     
     tasks = [TrainWordEmbeddings()]
+    print("Begin run all tasks")
     build(tasks, local_scheduler=True)
