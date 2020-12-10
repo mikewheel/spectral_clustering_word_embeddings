@@ -18,9 +18,9 @@ LINE_SENTENCE_CORPUS_FILE = DATA_DIR / "line_sentence_corpus.txt"
 
 WORD_VECTOR_SIZE = 200
 FASTTEXT_INIT = {"size": WORD_VECTOR_SIZE, "window": 4, "min_count": 1, "corpus_file": str(LINE_SENTENCE_CORPUS_FILE),
-                 "workers": 8}
+                 "workers": 8, "iter": 1}
 WORD2VEC_INIT = {"size": WORD_VECTOR_SIZE, "window": 4, "min_count": 1, "corpus_file": str(LINE_SENTENCE_CORPUS_FILE),
-                 "workers": 8}
+                 "workers": 8, "iter": 1}
 WORD_VECTOR_DIR = DATA_DIR / "word_vectors"
 FASTTEXT_FILE = WORD_VECTOR_DIR / "fasttext.model"
 WORD2VEC_FILE = WORD_VECTOR_DIR / "word2vec.model"
