@@ -61,9 +61,8 @@ class GenerateDocumentEmbeddings(Task):
         # Load the dask dataframe from the parquet files
         ddf = dask.dataframe.read_parquet(config.WIKIPEDIA_PARQUET_DIR / "*" / "wiki_*.parquet")
         
-        # Set the article ID to be the dataframe's index (requires repartition)
+        # Set the article ID to be the dataframe's index
         ddf = ddf.set_index("id", npartitions="auto")
-        ddf = ddf.repartition()
         
         # Apply the document embedding strategy to each partition in the dask dataframe
         ddf = ddf.map_partitions(embed_partition, model_name=self.model)
