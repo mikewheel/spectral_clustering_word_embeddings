@@ -9,7 +9,7 @@ from pipeline.extract_from_xml_tags import CorpusXMLToParquet
 
 class TrainFastText(Task):
     def requires(self):
-        return [CorpusXMLToParquet()]  # because it produces the corpus file
+        return [CorpusXMLToParquet()]  # because it produces the corpus file too
     
     def output(self):
         return LocalTarget(config.FASTTEXT_FILE)
