@@ -69,7 +69,10 @@ class GenerateDocumentEmbeddings(Task):
         ddf = dask.dataframe.read_parquet(config.WIKIPEDIA_PARQUET_DIR / "*" / "wiki_*.parquet")
 
         # Apply the document embedding strategy to each partition in the dask dataframe
-        ddf = ddf.map_partitions(embed_partition, model_name=self.model)
+        meta_dtypes = [('id', ddf['id'].dtype), ('url', ddf['url'].dtype), ('title', ddf['title'].dtype),
+                       ('tokenized_text', ddf['tokenized_text'].dtype)] + \
+            [(f'{i}', 'f8') for i in range(config.WORD_VECTOR_SIZE * 2)]
+        ddf = ddf.map_partitions(embed_partition, model_name=self.model, meta=meta_dtypes)
         
         # Write the augmented ddf to disk
         ddf_output_path = config.ARTICLE_EMBEDDINGS_DIR / self.model
