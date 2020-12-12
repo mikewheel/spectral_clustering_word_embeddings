@@ -50,6 +50,8 @@ def embed_partition(df, model_name):
     doc_vectors = df["tokenized_text"].apply(embed_single_document, model_name=model_name)
     doc_vectors_df = pandas.DataFrame.from_records(doc_vectors.values)
     out_df = pandas.concat([df, doc_vectors_df], axis=1)
+    # https://stackoverflow.com/a/38577252/8857601
+    out_df.columns = out_df.columns.astype(str)
     return out_df
 
 
@@ -71,11 +73,11 @@ class GenerateDocumentEmbeddings(Task):
         # Apply the document embedding strategy to each partition in the dask dataframe
         meta_dtypes = [('id', ddf['id'].dtype), ('url', ddf['url'].dtype), ('title', ddf['title'].dtype),
                        ('tokenized_text', ddf['tokenized_text'].dtype)] + \
-            [(f'{i}', 'f8') for i in range(config.WORD_VECTOR_SIZE * 2)]
+            [(str(i), 'f8') for i in range(config.WORD_VECTOR_SIZE * 2)]
         ddf = ddf.map_partitions(embed_partition, model_name=self.model, meta=meta_dtypes)
         
         # Write the augmented ddf to disk
-        ddf_output_path = config.ARTICLE_EMBEDDINGS_DIR / self.model
+        ddf_output_path = config.ARTICLE_EMBEDDINGS_DIR / f'{self.model}'
         ddf_output_path.mkdir(parents=True, exist_ok=True)
         dask.dataframe.to_parquet(ddf, ddf_output_path)
         
