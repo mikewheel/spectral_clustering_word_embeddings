@@ -27,12 +27,8 @@ class PerformSpectralClustering(Task):
         if self.word_vectors not in {"fasttext", "word2vec"}:
             raise ValueError(f'Expected fasttext or word2vec; got {self.word_vectors}')
         
-        ddf = dask.dataframe.read_parquet(config.ARTICLE_EMBEDDINGS_DIR / self.word_vectors)
-        print(ddf.columns)
-        print(ddf.dtypes)
-        print(ddf.shape[0].compute())
+        ddf = dask.dataframe.read_csv(config.ARTICLE_EMBEDDINGS_DIR / f'{self.model}_to_csv')
         X = ddf.drop(["id", "url", "title", "tokenized_text"], axis=1)
-        print(X.shape[0].compute())
         X = X.to_dask_array(lengths=True)
         
         # Perform spectral clustering on the vectorized word columns only

@@ -64,7 +64,7 @@ class GenerateDocumentEmbeddings(Task):
         return [TrainAllWordEmbeddings()]
     
     def output(self):
-        return LocalTarget(config.ARTICLE_EMBEDDINGS_DIR / f'{self.model}_success.txt')
+        return LocalTarget(config.ARTICLE_EMBEDDINGS_DIR / f'{self.model}_csv_success.txt')
     
     def run(self):
         # Load the dask dataframe from the parquet files
@@ -77,9 +77,9 @@ class GenerateDocumentEmbeddings(Task):
         ddf = ddf.map_partitions(embed_partition, model_name=self.model, meta=meta_dtypes)
         
         # Write the augmented ddf to disk
-        ddf_output_path = config.ARTICLE_EMBEDDINGS_DIR / f'{self.model}'
+        ddf_output_path = config.ARTICLE_EMBEDDINGS_DIR / f'{self.model}_to_csv'
         ddf_output_path.mkdir(parents=True, exist_ok=True)
-        dask.dataframe.to_parquet(ddf, ddf_output_path)
+        dask.dataframe.to_csv(ddf, ddf_output_path)
         
         with self.output().open("w") as f:
             f.write(f'Document embedding with {self.model}: SUCCESS')
