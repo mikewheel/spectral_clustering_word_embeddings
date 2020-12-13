@@ -75,6 +75,7 @@ class GenerateDocumentEmbeddings(Task):
                        ('tokenized_text', ddf['tokenized_text'].dtype)] + \
             [(str(i), 'f8') for i in range(config.WORD_VECTOR_SIZE * 2)]
         ddf = ddf.map_partitions(embed_partition, model_name=self.model, meta=meta_dtypes)
+        ddf = ddf.drop(["tokenized_text"], axis=1)
         
         # Write the augmented ddf to disk
         ddf_output_path = config.ARTICLE_EMBEDDINGS_DIR / f'{self.model}_to_csv'
