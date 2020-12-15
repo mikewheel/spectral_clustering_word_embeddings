@@ -29,10 +29,12 @@ class PerformSpectralClustering(Task):
             raise ValueError(f'Expected fasttext or word2vec; got {self.word_vectors}')
         
         ddf = dask.dataframe.read_csv(config.ARTICLE_EMBEDDINGS_DIR / f'{self.word_vectors}_to_csv' / "*.part")
-        print(ddf.columns)
         
         # Look at the memory usage of each partition to decide if we can put this into pandas directly
-        print(compute(ddf.memory_usage_per_partition(deep=True)))
+        memory_usage = ddf.memory_usage_per_partition(deep=True)
+        
+        for part_idx, val in memory_usage.iteritems():
+            print(f'Partition index: {part_idx}, memory usage: {val}')
         
         X = ddf.drop(["id", "url", "title"], axis=1)
         print(X.columns)
