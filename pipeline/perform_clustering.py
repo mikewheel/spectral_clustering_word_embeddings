@@ -35,7 +35,7 @@ class PerformSpectralClustering(Task):
             
         # Perform k-means clustering
         print(f'Starting K-Means clustering at {datetime.now()}')
-        k_means_clustering_model = KMeans(n_clusters=self.num_clusters, n_jobs=-1)
+        k_means_clustering_model = KMeans(n_clusters=self.num_clusters, n_jobs=-1, max_iter=config.K_MEANS_MAX_ITER)
         k_means_cluster_labels = k_means_clustering_model.fit(X)
         
         # Write k-means results to disk
@@ -47,7 +47,9 @@ class PerformSpectralClustering(Task):
         
         # Perform spectral clustering
         print(f'Starting Spectral clustering at {datetime.now()}')
-        spectral_clustering_model = SpectralClustering(n_clusters=self.num_clusters, n_jobs=-1, persist_embedding=True)
+        spectral_clustering_model = SpectralClustering(n_clusters=self.num_clusters, n_jobs=-1,
+                                                       persist_embedding=True,
+                                                       kmeans_params={"max_iter": config.K_MEANS_MAX_ITER})
         spectral_cluster_labels = spectral_clustering_model.fit(X)
         
         # Write spectral results to disk

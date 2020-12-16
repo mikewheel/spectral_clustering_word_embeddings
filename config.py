@@ -32,3 +32,4 @@ FASTTEXT_INIT = {"size": WORD_VECTOR_SIZE, "window": 4, "min_count": 10, "corpus
 WORD2VEC_INIT = {"size": WORD_VECTOR_SIZE, "window": 4, "min_count": 10, "corpus_file": str(LINE_SENTENCE_CORPUS_FILE),
                  "workers": 8, "iter": 3, "compute_loss": True}
 
+K_MEANS_MAX_ITER = 2  # Default is 300
