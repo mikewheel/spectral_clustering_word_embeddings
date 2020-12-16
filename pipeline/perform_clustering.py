@@ -43,7 +43,7 @@ class PerformSpectralClustering(Task):
         k_means_results_ddf = ddf.join(k_means_cluster_labels)
         k_means_ddf_output_path = config.CLUSTERING_RESULTS_DIR / f'{self.word_vectors}_w_k_means'
         k_means_ddf_output_path.mkdir(parents=True, exist_ok=True)
-        dask.dataframe.to_parquet(k_means_results_ddf, k_means_ddf_output_path)
+        dask.dataframe.to_csv(k_means_results_ddf, k_means_ddf_output_path)
         
         # Perform spectral clustering
         print(f'Starting Spectral clustering at {datetime.now()}')
@@ -57,7 +57,7 @@ class PerformSpectralClustering(Task):
         spectral_results_ddf = ddf.join(spectral_cluster_labels)
         spectral_ddf_output_path = config.CLUSTERING_RESULTS_DIR / f'{self.word_vectors}_w_spectral'
         spectral_ddf_output_path.mkdir(parents=True, exist_ok=True)
-        dask.dataframe.to_parquet(spectral_results_ddf, spectral_ddf_output_path)
+        dask.dataframe.to_csv(spectral_results_ddf, spectral_ddf_output_path)
         
         # And save the success flag
         with self.output().open("w") as f:
