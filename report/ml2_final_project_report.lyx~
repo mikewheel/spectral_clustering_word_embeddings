@@ -693,7 +693,7 @@ At the same time, clustering on Wikipedia could also prove useful beyond
  Yehoshua (along with the related literature) suggested that the taxonomic
  structure of Wikipedia could be used to evaluate how well the clustering
  captures semantic meaning from the text.
- It is conceivable that using the existing code as a proof of concept, I
+ It is conceivable that using the existing code as a proof-of-concept, I
  could design a robust and diverse benchmark for evaluating novel document
  clustering algorithms around the Wikipedia corpus and all its associated
  metadata.

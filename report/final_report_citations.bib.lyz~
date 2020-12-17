@@ -1,0 +1,211 @@
+﻿1_3F6XSKVK 1_3X9QMN6W 1_5HSHQ7KB 1_82ANUUT9 1_C5N6PNJM 1_GYZSVSSD 1_IID5TAM9 1_JHJ7EJGP 1_KCUKATR6 1_QBW6X79S 1_UE75GNF9 1_VFURH7D4 1_Y2E44WQB 1_YMKCXMRC 1_QJ62NMZ9
+
+@misc{wikipedia2020wikipedia,
+	title = {Wikipedia: {About}},
+	copyright = {Creative Commons Attribution-ShareAlike License},
+	shorttitle = {Wikipedia},
+	url = {https://en.wikipedia.org/w/index.php?title=Wikipedia:About&oldid=992972317},
+	language = {en},
+	urldate = {2020-12-16},
+	journal = {Wikipedia},
+	publisher = {Wikimedia Foundation},
+	author = {Wikipedia},
+	month = dec,
+	year = {2020},
+	note = {Page Version ID: 992972317},
+	file = {Snapshot:/home/michael/Zotero/storage/9AI6KEY2/index.html:text/html}
+}
+
+@misc{stackexchange2016crossvalidated,
+	title = {Cross {Validated}: {Apply} word embeddings to entire document, to get a feature vector},
+	url = {https://stats.stackexchange.com/questions/221715/apply-word-embeddings-to-entire-document-to-get-a-feature-vector},
+	urldate = {2020-12-17},
+	journal = {Cross Validated},
+	author = {StackExchange},
+	year = {2016},
+	file = {Snapshot:/home/michael/Zotero/storage/E6T4EKVH/apply-word-embeddings-to-entire-document-to-get-a-feature-vector.html:text/html}
+}
+
+@article{szymanski2017spectral,
+	title = {Spectral {Clustering} {Wikipedia} {Keyword}-{Based} {Search} {Results}},
+	volume = {3},
+	issn = {2296-9144},
+	url = {https://www.frontiersin.org/articles/10.3389/frobt.2016.00078/full},
+	doi = {10.3389/frobt.2016.00078},
+	abstract = {The paper presents an application of spectral clustering algorithms used for grouping Wikipedia search results. The main contribution of the paper is a representation method for Wikipedia articles that has been based on combination of words and links and it has been used to categorize search result in this repository. We evaluate the proposed approach with Primary Component Analysis and show, on the test data, how usage of cosine transformation to create combined representations influence data variability. On sample test datasets we also show how combined representation improves the data separation that increases overall results of data categorization. The paper reviews the three main spectral clustering methods and we test their usability for text categorization comparing them using external validation criteria with standard clustering quality measures. Discussion on descriptiveness of evaluation measures and performed experiments on test datasets allows us to select the one spectral clustering algorithm that has been implemented in our system. We give a brief description of the system architecture that groups on-line Wikipedia articles retrieved with user-specified keywords. Using the system we show how clustering increases information retrieval effectiveness for Wikipedia data repository.},
+	language = {English},
+	urldate = {2020-12-16},
+	journal = {Frontiers in Robotics and AI},
+	author = {Szyma{\'n}ski, Julian and Dziubich, Tomasz},
+	year = {2017},
+	note = {Publisher: Frontiers},
+	keywords = {documents categorization, human-computer interaction, information retrieval, spectral clustering, text representation, Wikipedia},
+	file = {Full Text PDF:/home/michael/Zotero/storage/HR7EMVNC/Szyma{\'n}ski and Dziubich - 2017 - Spectral Clustering Wikipedia Keyword-Based Search.pdf:application/pdf}
+}
+
+@misc{nltk2020nltknltk,
+	title = {nltk/nltk},
+	copyright = {Apache-2.0 License         ,                 Apache-2.0 License},
+	url = {https://github.com/nltk/nltk},
+	abstract = {NLTK Source. Contribute to nltk/nltk development by creating an account on GitHub.},
+	urldate = {2020-12-17},
+	publisher = {Natural Language Toolkit},
+	author = {NLTK},
+	month = dec,
+	year = {2020},
+	note = {original-date: 2009-09-07T10:53:58Z},
+	keywords = {machine-learning, natural-language-processing, nlp, nltk, python}
+}
+
+@misc{attardiwikiextractor,
+	title = {wikiextractor: {A} tool for extracting plain text from {Wikipedia} dumps},
+	copyright = {GNU Affero General Public License v3 or later},
+	shorttitle = {wikiextractor},
+	url = {https://github.com/attardi/wikiextractor},
+	urldate = {2020-12-17},
+	author = {Attardi, Giuseppe},
+	keywords = {Text Processing - Linguistic},
+	file = {Snapshot:/home/michael/Zotero/storage/MS7CNVRK/wikiextractor.html:text/html}
+}
+
+@misc{luigi2020spotifyluigi,
+	title = {spotify/luigi},
+	copyright = {Apache-2.0 License         ,                 Apache-2.0 License},
+	url = {https://github.com/spotify/luigi},
+	abstract = {Luigi is a Python module that helps you build complex pipelines of batch jobs. It handles dependency resolution, workflow management, visualization etc. It also comes with Hadoop support built in. ...},
+	urldate = {2020-12-17},
+	publisher = {Spotify},
+	author = {Luigi},
+	month = dec,
+	year = {2020},
+	note = {original-date: 2012-09-20T15:06:38Z},
+	keywords = {hadoop, luigi, orchestration-framework, python, scheduling}
+}
+
+@misc{dask2020daskdask,
+	title = {dask/dask},
+	copyright = {BSD-3-Clause License         ,                 BSD-3-Clause License},
+	url = {https://github.com/dask/dask},
+	abstract = {Parallel computing with task scheduling. Contribute to dask/dask development by creating an account on GitHub.},
+	urldate = {2020-12-17},
+	publisher = {dask},
+	author = {Dask},
+	month = dec,
+	year = {2020},
+	note = {original-date: 2015-01-04T18:50:00Z},
+	keywords = {dask, numpy, pandas, pydata, python, scikit-learn, scipy}
+}
+
+@article{bojanowski2017enriching,
+	title = {Enriching {Word} {Vectors} with {Subword} {Information}},
+	url = {http://arxiv.org/abs/1607.04606},
+	abstract = {Continuous word representations, trained on large unlabeled corpora are useful for many natural language processing tasks. Popular models that learn such representations ignore the morphology of words, by assigning a distinct vector to each word. This is a limitation, especially for languages with large vocabularies and many rare words. In this paper, we propose a new approach based on the skipgram model, where each word is represented as a bag of character \$n\$-grams. A vector representation is associated to each character \$n\$-gram; words being represented as the sum of these representations. Our method is fast, allowing to train models on large corpora quickly and allows us to compute word representations for words that did not appear in the training data. We evaluate our word representations on nine different languages, both on word similarity and analogy tasks. By comparing to recently proposed morphological word representations, we show that our vectors achieve state-of-the-art performance on these tasks.},
+	urldate = {2020-12-16},
+	journal = {arXiv:1607.04606 [cs]},
+	author = {Bojanowski, Piotr and Grave, Edouard and Joulin, Armand and Mikolov, Tomas},
+	month = jun,
+	year = {2017},
+	note = {arXiv: 1607.04606},
+	keywords = {Computer Science - Computation and Language, Computer Science - Machine Learning},
+	file = {arXiv Fulltext PDF:/home/michael/Zotero/storage/R2K7K9AJ/Bojanowski et al. - 2017 - Enriching Word Vectors with Subword Information.pdf:application/pdf;arXiv.org Snapshot:/home/michael/Zotero/storage/LVGVUZCS/1607.html:text/html}
+}
+
+@misc{wikipedia2020wikipediadatabase,
+	title = {Wikipedia:{Database} download},
+	copyright = {Creative Commons Attribution-ShareAlike License},
+	shorttitle = {Wikipedia},
+	url = {https://en.wikipedia.org/w/index.php?title=Wikipedia:Database_download&oldid=990954890},
+	abstract = {Wikipedia offers free copies of all available content to interested users. These databases can be used for mirroring, personal use, informal backups, offline use or database queries (such as for Wikipedia:Maintenance). All text content is multi-licensed under the Creative Commons Attribution-ShareAlike 3.0 License (CC-BY-SA) and the GNU Free Documentation License (GFDL). Images and other files are available under different terms, as detailed on their description pages. For our advice about complying with these licenses, see Wikipedia:Copyrights.},
+	language = {en},
+	urldate = {2020-12-17},
+	journal = {Wikipedia},
+	publisher = {Wikimedia Foundation},
+	author = {Wikipedia},
+	month = nov,
+	year = {2020},
+	note = {Page Version ID: 990954890},
+	file = {Snapshot:/home/michael/Zotero/storage/7RIRTCX7/index.html:text/html}
+}
+
+@inproceedings{szymanski2011categorization,
+	address = {Berlin, Heidelberg},
+	series = {Lecture {Notes} in {Computer} {Science}},
+	title = {Categorization of {Wikipedia} {Articles} with {Spectral} {Clustering}},
+	isbn = {978-3-642-23878-9},
+	doi = {10.1007/978-3-642-23878-9_14},
+	abstract = {The article reports application of clustering algorithms for creating hierarchical groups within Wikipedia articles. We evaluate three spectral clustering algorithms based on datasets constructed with usage of Wikipedia categories. Selected algorithm has been implemented in the system that categorize Wikipedia search results in the fly.},
+	language = {en},
+	booktitle = {Intelligent {Data} {Engineering} and {Automated} {Learning} - {IDEAL} 2011},
+	publisher = {Springer},
+	author = {Szyma{\'n}ski, Julian},
+	editor = {Yin, Hujun and Wang, Wenjia and Rayward-Smith, Victor},
+	year = {2011},
+	keywords = {High Abstraction Level, Laplacian Matrix, Spectral Cluster, Test Package, Vector Space Model},
+	pages = {108--115},
+	file = {Springer Full Text PDF:/home/michael/Zotero/storage/Z2T6NTTF/Szyma{\'n}ski - 2011 - Categorization of Wikipedia Articles with Spectral.pdf:application/pdf}
+}
+
+@misc{gensim2020raretechnologiesgensim,
+	title = {{RaRe}-{Technologies}/gensim},
+	copyright = {LGPL-2.1 License         ,                 LGPL-2.1 License},
+	url = {https://github.com/RaRe-Technologies/gensim},
+	abstract = {Topic Modelling for Humans. Contribute to RaRe-Technologies/gensim development by creating an account on GitHub.},
+	urldate = {2020-12-17},
+	publisher = {RARE Technologies},
+	author = {gensim},
+	month = dec,
+	year = {2020},
+	note = {original-date: 2011-02-10T07:43:04Z},
+	keywords = {data-mining, data-science, document-similarity, fasttext, gensim, information-retrieval, machine-learning, natural-language-processing, neural-network, nlp, python, topic-modeling, word-embeddings, word-similarity, word2vec}
+}
+
+@article{mikolov2013efficient,
+	title = {Efficient {Estimation} of {Word} {Representations} in {Vector} {Space}},
+	url = {http://arxiv.org/abs/1301.3781},
+	abstract = {We propose two novel model architectures for computing continuous vector representations of words from very large data sets. The quality of these representations is measured in a word similarity task, and the results are compared to the previously best performing techniques based on different types of neural networks. We observe large improvements in accuracy at much lower computational cost, i.e. it takes less than a day to learn high quality word vectors from a 1.6 billion words data set. Furthermore, we show that these vectors provide state-of-the-art performance on our test set for measuring syntactic and semantic word similarities.},
+	urldate = {2020-12-16},
+	journal = {arXiv:1301.3781 [cs]},
+	author = {Mikolov, Tomas and Chen, Kai and Corrado, Greg and Dean, Jeffrey},
+	month = sep,
+	year = {2013},
+	note = {arXiv: 1301.3781},
+	keywords = {Computer Science - Computation and Language},
+	file = {arXiv Fulltext PDF:/home/michael/Zotero/storage/W3HFF5W7/Mikolov et al. - 2013 - Efficient Estimation of Word Representations in Ve.pdf:application/pdf;arXiv.org Snapshot:/home/michael/Zotero/storage/HVCS6JER/1301.html:text/html}
+}
+
+@misc{attardi2020attardiwikiextractor,
+	title = {attardi/wikiextractor},
+	copyright = {AGPL-3.0 License         ,                 AGPL-3.0 License},
+	url = {https://github.com/attardi/wikiextractor},
+	abstract = {A tool for extracting plain text from Wikipedia dumps},
+	urldate = {2020-12-17},
+	author = {Attardi, Giuseppe},
+	month = dec,
+	year = {2020},
+	note = {original-date: 2015-03-22T12:03:01Z}
+}
+
+@article{mikolov2013distributed,
+	title = {Distributed {Representations} of {Words} and {Phrases} and their {Compositionality}},
+	url = {http://arxiv.org/abs/1310.4546},
+	abstract = {The recently introduced continuous Skip-gram model is an efficient method for learning high-quality distributed vector representations that capture a large number of precise syntactic and semantic word relationships. In this paper we present several extensions that improve both the quality of the vectors and the training speed. By subsampling of the frequent words we obtain significant speedup and also learn more regular word representations. We also describe a simple alternative to the hierarchical softmax called negative sampling. An inherent limitation of word representations is their indifference to word order and their inability to represent idiomatic phrases. For example, the meanings of "Canada" and "Air" cannot be easily combined to obtain "Air Canada". Motivated by this example, we present a simple method for finding phrases in text, and show that learning good vector representations for millions of phrases is possible.},
+	urldate = {2020-12-16},
+	journal = {arXiv:1310.4546 [cs, stat]},
+	author = {Mikolov, Tomas and Sutskever, Ilya and Chen, Kai and Corrado, Greg and Dean, Jeffrey},
+	month = oct,
+	year = {2013},
+	note = {arXiv: 1310.4546},
+	keywords = {Computer Science - Computation and Language, Computer Science - Machine Learning, Statistics - Machine Learning},
+	file = {arXiv Fulltext PDF:/home/michael/Zotero/storage/SUXI24CD/Mikolov et al. - 2013 - Distributed Representations of Words and Phrases a.pdf:application/pdf;arXiv.org Snapshot:/home/michael/Zotero/storage/CPNTWY6V/1310.html:text/html}
+}
+
+@misc{dask-mldaskml171,
+	title = {dask-ml 1.7.1 documentation - {Clustering}},
+	url = {clustering.html},
+	abstract = {Clustering},
+	language = {en},
+	urldate = {2020-12-17},
+	journal = {dask-ml 1.7.1 documentation},
+	author = {Dask-ML},
+	file = {Snapshot:/home/michael/Zotero/storage/7ZK5329A/clustering.html:text/html}
+}

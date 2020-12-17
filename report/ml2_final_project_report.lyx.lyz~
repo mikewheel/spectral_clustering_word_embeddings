@@ -1,0 +1,594 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{aaai20}
+\usepackage{times}
+\usepackage{helvet}
+\usepackage{courier}
+\usepackage[hyphens]{url}
+\usepackage{graphicx}
+\urlstyle{rm}
+\def\UrlFont{\rm}
+\usepackage{graphicx}
+\frenchspacing
+\setlength{\pdfpagewidth}{8.5in}
+\setlength{\pdfpageheight}{11in}
+% Add additional packages here, but check
+% the list of disallowed packages
+% (including, but not limited to
+% authblk, caption, CJK, float, fullpage, geometry,
+% hyperref, layout, nameref, natbib, savetrees,
+% setspace, titlesec, tocbibind, ulem)
+% and illegal commands provided in the
+% common formatting errors document
+% included in the Author Kit before doing so.
+%
+% PDFINFO
+% You are required to complete the following
+% for pass-through to the PDF.
+% No LaTeX commands of any kind may be
+% entered. The parentheses and spaces
+% are an integral part of the
+% pdfinfo script and must not be removed.
+%
+\pdfinfo{
+/Title (An Attempt to Compare the Performance of Word Embedding Algorithms at Clustering English Wikipedia Articles)
+/Author (Michael Wheeler)
+}
+%
+% Section Numbers
+% Uncomment if you want to use section numbers
+% and change the 0 to a 1 or 2
+\setcounter{secnumdepth}{1}
+% Title and Author Information Must Immediately Follow
+% the pdfinfo within the preamble
+%
+\title{An Attempt to Compare the Performance of Word Embedding Algorithms at Clustering English Wikipedia Articles}
+\author{Michael Wheeler\\
+wheeler.m@northeastern.edu\\
+}
+\end_preamble
+\options letterpaper
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+maketitle
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+For the final project in 
+\shape italic
+DS5230: Unsupervised Machine Learning and Data Mining
+\shape default
+, I attempted to generate a clustering of English Wikipedia articles using
+ state-of-the-art word embedding algorithms in tandem with traditional clusterin
+g techniques.
+ I aimed to compare the performance of word2vec and fasttext on this task
+ by training each model on the English Wikipedia corpus, then using those
+ trained models to generate an embedding for each article to be used for
+ clustering.
+ Unfortunately I was unable to generate clustering results on which to report;
+ instead I discuss the technical challenges I faced in my attempts, areas
+ for improvement in my methodology, and the potential for future work in
+ this space.
+\end_layout
+
+\begin_layout Section
+Background
+\end_layout
+
+\begin_layout Standard
+Wikipedia is an online, open-source, worldwide, collaboraitve encyclopedia.
+ Wikipedia allows anyone in the world to contribute content to its pages
+ in real-time, so long as those contributions are accurate, sourced appropriatel
+y, and free of both original research and editorial content.
+ Since its founding in 2001 by Jimmy Wales and Larry Sanger it has grown
+ into the largest and most-trafficked reference website on the Internet,
+ with tens of millions of articles written in hundreds of languages and
+ spanning virtually all areas of human knowledge.
+ More specifically the subset of Wikipedia content written in the English
+ language (
+\begin_inset Quotes eld
+\end_inset
+
+English Wikipedia
+\begin_inset Quotes erd
+\end_inset
+
+, the focus of this project) currently totals over 6 million articles.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wikipedia2020wikipedia"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the field of unsupervised machine learning, clustering is the task of
+ assigning data points to one or more groups based on the similarity of
+ their features.
+ The goal is to produce groups whose members have high similarity between
+ each other and low similarity with respect to members of other groups.
+ What separates clustering from classification is that those data points
+ do not come with any group labels on which an algorithm may train.
+ Thus, a successful clustering algorithm must learn the latent structure
+ of the data's subspace well enough to produce meaningful separation given
+ only the unlabelled data itself and the desired number of clusters.
+ Two of the most commonly-used clustering algorithms are k-means clustering
+ and spectral clustering: both techniques are partitional, meaning that
+ all data points are contained in exactly one cluster.
+ K-means clustering is an iterative algorithm in which each point is assigned
+ to a cluster based on its closest centroid; those centroids are initialized
+ at random or heuristically and then recomputed based on its assigned points
+ until convergence.
+ Spectral clustering is an algorithm that improves on k-means with a carefully-c
+onstructed design matrix: the original data points form a similarity graph,
+ the adjacency matrix and degree matrix of that similarity graph are combined
+ to form a Laplacian matrix, and finally a subset of the eigenvectors of
+ that Laplacian matrix serve as the input to the standard k-means algorithm.
+\end_layout
+
+\begin_layout Standard
+One major limitation of both these algorithms is that they require a design
+ matrix: where each row vector corresponds to a particular observation in
+ the dataset, and each column vector corresponds to a particular feature
+ across all observations.
+ This format — while suitable for numeric data — poses a challenge for less-stru
+ctured data like text.
+ Specifically for the task of clustering Wikipedia articles based on their
+ content (the focus of this project), the use of these algorithms requires
+ a method of vectorizing the text of each document to create a representative
+ matrix for clustering.
+ Such methods exist in the form of word embedding algorithms, whose goal
+ is to map the vocabulary of a training corpus into a vector space whose
+ arithmetic mirrors the semantic relationships between the words as observed
+ in the corpus.
+\end_layout
+
+\begin_layout Standard
+Perhaps the most famous technique used for learning word embeddings is word2vec;
+ the approach uses one of two different prediction tasks to train and evaluate
+ its embeddings.
+ A feed-forward neural network accepts a one-hot encodings of words and
+ outputs the learned vector representations of those words based on the
+ weights of the network's hidden layers.
+ Then the network's performance is evaluated by using those vectors to predict
+ a target word given a fixed-size context window of words occurring before
+ and after said target word, across all the text in the training corpus.
+ Alternatively, the vector representations can also be evaluated on the
+ complementary task: by predicting the occurrence of the context words given
+ a particular target word, making use of negative sampling to make sure
+ the model doesn't learn only positive predictions.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mikolov2013distributed,mikolov2013efficient"
+literal "false"
+
+\end_inset
+
+ Another popular algorithm for word vectorization is fasttext; this approach
+ builds on word2vec by constructing n-grams and skip-grams from individual
+ characters instead of words to better represent words with similar prefixes,
+ suffixes, and root phrases.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bojanowski2017enriching"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Related Work
+\end_layout
+
+\begin_layout Standard
+While preparing for this project I encountered two works with similar approaches
+, both by the same author, for the purposes of information retrieval and
+ search.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "szymanski2011categorization,szymanski2017spectral"
+literal "false"
+
+\end_inset
+
+ In both papers the author performs spectral clustering on Wikipedia articles
+ and uses the human-generated article taxonomy included in the WikiMedia
+ markup to evaluate the quality of the clusters externally.
+ In the earlier work, the documents are vectorized using a bag-of-words
+ approach, where the value for each word is its term-frequency inverse-document-
+frequency score (abbr.
+ TF-IDF score), a common measure of the importance of some to that particular
+ article.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "szymanski2011categorization"
+literal "false"
+
+\end_inset
+
+ The later work uses an identical bag-of-words approach with TF-IDF scores,
+ but augments the document vector representation with one-hot encoding of
+ links to other articles and performs dimensionality reduction on those
+ vectors using principal component analysys.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "szymanski2017spectral"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Methodology
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pipeline_flowchart.svg
+	height 70pheight%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A flowchart of the model preprocessing and training pipeline generated and
+ executed for this project.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figure 1 outlines the data pipeline I wrote over the course of this project.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Code available at https://github.com/mikewheel/spectral_clustering_word_embedding
+s
+\end_layout
+
+\end_inset
+
+.
+ The Wikipedia data source file is a bzip2-compressed archive, 18.9GB in
+ size, consisting only of the most recent revisions of all articles belonging
+ to English Wikipedia (i.e.
+ no older revisions, no discussion pages, no user pages, no meta pages,
+ and no pages pertaining to non-English Wikipedia) as of 2020-11-01.
+ The archive, along with its index for decompression, was downloaded from
+ a WikiMedia dumps mirror.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wikipedia2020wikipediadatabase"
+literal "false"
+
+\end_inset
+
+ I used the WikiExtractor Python library to decompress the archive: the
+ tool discards most of the MediaWiki markup in favor of retaining the text,
+ and splits up the articles into text files containing XML-like tags for
+ each article.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "attardi2020attardiwikiextractor"
+literal "false"
+
+\end_inset
+
+ WikiExtractor took approximately six hours to run to completion and produced
+ over 14,000 text files totaling 14GB in size.
+\end_layout
+
+\begin_layout Standard
+In the next step I wrote a Luigi task to extract the text of each article
+ from the malformed XML files, generating both a single large corpus file
+ and a Dask Dataframe with 14,000 partitions.
+ Luigi is a framework for orchestrating repeatable data science workflows
+ and pipelines, and is used to structure the rest of the pipeline downstream
+ from WikiExtractor.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "luigi2020spotifyluigi"
+literal "false"
+
+\end_inset
+
+ Dask is an extension of Numpy and Pandas for handling larger-than-memory
+ datasets: it is designed around the delayed computation of task graphs,
+ and comes with a sister library Dask-ML used in the clustering task downstream.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "dask2020daskdask"
+literal "false"
+
+\end_inset
+
+ After extracting each article's text from the XML but before writing to
+ disk I performed tokenization on the article text using NLTK — a library
+ providing utilities for a variety of natural language processing tasks
+ — in preparation for use with the word embedding algorithms.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nltk2020nltknltk"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Next, I trained the fasttext and word2vec models on the tokenized corpus
+ file generated in the previous task, using implementations for each algorithm
+ provided by the library Gensim.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gensim2020raretechnologiesgensim"
+literal "false"
+
+\end_inset
+
+ For both models I trained for three epochs with a window size of four words
+ and a minimum frequency of ten occurrences in the corpus to generate word
+ vectors of size 200.
+ The resulting binary model files were each about 45MB in size.
+ I then used those trained word embedding models to embed each article:
+ as a simple strategy I concatenated the element-wise minimum and element-wise
+ maximum vectors, each calculated across all the word vectors in the article,
+ for a document embedding of size 400.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "stackexchange2016crossvalidated"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally I attempted to perform both k-means and spectral clustering on the
+ document embeddings for the entirety of the English Wikipedia corpus.
+ The goal was to produce both trained clustering models, whose attribute
+ for inertia (SSE) could be extracted via inspection; as well as a Dask
+ Series of cluster labels for each article, from which the silhoutette score
+ could be calculated using scikit-learn's implementation of that particular
+ metric.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "dask-mldaskml171,scikit-learnsklearnmetricssilhouettescore"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+All of the above computation was performed on a single Elastic Cloud Compute
+ (EC2) instance available on Amazon Web Services (AWS).
+ The instance type I used was t2.2xlarge: with 8 cores and 32GB of RAM, along
+ with an Elastic Block Store (EBS) for storing data and model assets totaling
+ 120GB in size.
+\end_layout
+
+\begin_layout Section
+Results and Challenges
+\end_layout
+
+\begin_layout Standard
+TODO explain why it didn't work, mostly related to scale.
+ Time to embed word vectors, time to load and unload data.
+ Parquet bugs (no answers on StackOverflow, issue reported on GitHub), overflow/
+underflow in the process of Spectral Clustering, twelve hours for K-Means
+ clustering with the fewest number of clusters and the fewest number of
+ iterations for EM.
+\end_layout
+
+\begin_layout Standard
+Not for lack of trying either — I threw considerbale compute at it and used
+ the most efficient technology I knew how to use.
+\end_layout
+
+\begin_layout Standard
+TODO explain why I didn't subsample: both because the content is so diverse
+ and the curse of dimensionality in 400-space.
+ I didn't want to invest time in coming up with an intelligent and representativ
+e subsampling strategy when I thought it would be more straightforward to
+ run on the entire dataset.
+ Up until that point I hadn't encountered any problems with either the data
+ format or the training time, so I thought it would work out.
+ Obviously this was a critical error and a misjudgement on my part.
+ :(
+\end_layout
+
+\begin_layout Standard
+Intelligent tuning of hyperparameters? Smaller word embeddings? (how to
+ trade off between word embedding size and clustering efficiency?)
+\end_layout
+
+\begin_layout Section
+Discussion
+\end_layout
+
+\begin_layout Standard
+Working with an in-memory dataset to perfect the pipeline is critical, and
+ a hard lesson learned in this project.
+ Still, not all is lost! I have it set up so that with more time and development
+ effort, a clustering on full Wikipedia could be produced and evaluated
+ with the metrics stated above.
+\end_layout
+
+\begin_layout Standard
+At the time that I proposed the project, we hadn't covered community detection
+ techniques yet.
+ With that in mind, I think that community detection across Wikipedia articles
+ would have been a more fruitful endeavor.
+ Reasons: inherent link structure provides a lot of information that the
+ text alone does not.
+ Likely to be more semantically meaningful than choosing arbitrary n clusters
+ across 6 million diverse articles.
+ Smaller data representation means it would run much faster.
+ No need for word embeddings.
+\end_layout
+
+\begin_layout Standard
+Yet clustering may be worthwile after all.
+ Prof.
+ Yehoshua suggested that the taxonomic structure of Wikipedia could be used
+ to evaluate how well the clustering captures semantic meaning from the
+ text.
+ It is conceivable that using the existing code as a proof-of-concept, I
+ could design a robust and diverse benchmark for evaluating novel document
+ clustering algorithms around the English Wikipedia corpus and all its associate
+d metadata.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "final_report_citations"
+options "aaai"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
